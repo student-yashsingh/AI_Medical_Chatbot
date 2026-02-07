@@ -3,30 +3,30 @@ import faiss
 import pickle
 from sentence_transformers import SentenceTransformer
 
-# -----------------------------
-# ✅ PATH FIX (Absolute Paths)
-# -----------------------------
+
+#  PATH FIX (Absolute Paths)
+
 BASE_DIR = os.path.dirname(__file__)
 
 INDEX_PATH = os.path.join(BASE_DIR, "faiss_index", "index.faiss")
 CHUNKS_PATH = os.path.join(BASE_DIR, "faiss_index", "chunks.pkl")
 
-# -----------------------------
-# ✅ Load Embedding Model
-# -----------------------------
+
+#  Load Embedding Model
+
 model = SentenceTransformer("all-MiniLM-L6-v2")
 
-# -----------------------------
-# ✅ Load FAISS Index + Chunks
-# -----------------------------
+
+#  Load FAISS Index + Chunks
+
 index = faiss.read_index(INDEX_PATH)
 
 with open(CHUNKS_PATH, "rb") as f:
     chunks = pickle.load(f)
 
-# -----------------------------
-# ✅ RETRIEVE FUNCTION
-# -----------------------------
+
+#  RETRIEVE FUNCTION
+
 def retrieve(query, top_k=5):
     """
     Takes user query, finds top_k most relevant chunks from FAISS,
@@ -48,9 +48,9 @@ def retrieve(query, top_k=5):
     return results
 
 
-# -----------------------------
-# ✅ TEST RETRIEVER DIRECTLY
-# -----------------------------
+
+#  TEST RETRIEVER DIRECTLY
+
 if __name__ == "__main__":
     question = input("Ask medical question: ")
 

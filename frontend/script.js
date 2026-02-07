@@ -30,7 +30,7 @@ async function sendMessage() {
     chatBox.scrollTop = chatBox.scrollHeight;
   }
   
-  /* ✅ Enter Key Press Support */
+  /*  Enter Key Press Support */
   document.getElementById("userInput").addEventListener("keydown", function (e) {
     if (e.key === "Enter") {
       sendMessage();
