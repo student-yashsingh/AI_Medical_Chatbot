@@ -5,15 +5,15 @@ async function sendMessage() {
     const userText = input.value.trim();
     if (!userText) return;
   
-    // Show user message
-    chatBox.innerHTML += `<div class="user"><b>You:</b> ${userText}</div>`;
+    // Show User Message
+    chatBox.innerHTML += `<div class="user-msg">${userText}</div>`;
     input.value = "";
   
-    // Show loading
-    chatBox.innerHTML += `<div class="bot"><i>AI is thinking...</i></div>`;
+    // Bot Loading
+    chatBox.innerHTML += `<div class="bot-msg">Thinking...</div>`;
     chatBox.scrollTop = chatBox.scrollHeight;
   
-    // Send to backend
+    // Send Request to Backend
     const response = await fetch("http://localhost:8000/chat", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -22,11 +22,18 @@ async function sendMessage() {
   
     const data = await response.json();
   
-    // Remove loading text
+    // Remove Loading
     chatBox.lastChild.remove();
   
-    // Show bot response
-    chatBox.innerHTML += `<div class="bot"><b>MedBot:</b> ${data.reply}</div>`;
+    // Show Bot Reply
+    chatBox.innerHTML += `<div class="bot-msg">${data.reply}</div>`;
     chatBox.scrollTop = chatBox.scrollHeight;
   }
+  
+  /* ✅ Enter Key Press Support */
+  document.getElementById("userInput").addEventListener("keydown", function (e) {
+    if (e.key === "Enter") {
+      sendMessage();
+    }
+  });
   
