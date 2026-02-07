@@ -18,50 +18,71 @@ app.use(
 
 app.use(express.json());
 
+/* ✅ Groq Client */
 const groq = new Groq({
   apiKey: process.env.GROQ_API_KEY,
 });
 
+/* ✅ Test Route */
 app.get("/", (req, res) => {
   res.send("✅ Medical RAG Chatbot Backend is Running!");
 });
 
+/* ✅ Chat Route */
 app.post("/chat", async (req, res) => {
   const userMessage = req.body.message;
 
   try {
+    console.log("\n🧑 User:", userMessage);
+
+    /* STEP 1: Get Context from Python */
     const context = execSync(
       `python3 ../rag_engine/context.py "${userMessage}"`,
       { encoding: "utf-8" }
     );
 
+    console.log("✅ Context Loaded");
+
+    /* STEP 2: Groq Response */
     const response = await groq.chat.completions.create({
-      model: "llama3-70b-8192",
+      model: "llama-3.3-70b-versatile", // ✅ UPDATED MODEL
       messages: [
         {
           role: "system",
           content: `
 You are a safe AI medical assistant.
 
-Answer ONLY from the context below.
-Do NOT diagnose or prescribe.
+RULES:
+- Answer ONLY using the provided medical context.
+- Do NOT diagnose diseases.
+- Do NOT prescribe medicines.
+- Always recommend consulting a doctor.
 
-Context:
+Medical Context:
 ${context}
           `,
         },
-        { role: "user", content: userMessage },
+        {
+          role: "user",
+          content: userMessage,
+        },
       ],
     });
 
-    res.json({ reply: response.choices[0].message.content });
+    res.json({
+      reply: response.choices[0].message.content,
+    });
   } catch (err) {
-    console.error(err);
-    res.status(500).json({ error: "Server Error" });
+    console.error("❌ Error:", err.message);
+
+    res.status(500).json({
+      error: err.message,
+    });
   }
 });
 
+/* ✅ Start Server */
 app.listen(8000, () => {
-    console.log("✅ Backend running at http://localhost:8000");
-  });
-  
+  console.log("✅ Backend running at http://localhost:8000");
+});
+``
