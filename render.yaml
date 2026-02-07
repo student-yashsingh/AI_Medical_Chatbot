@@ -4,14 +4,11 @@ services:
     env: node
     plan: free
 
-    buildCommand: |
-      cd backend
-      npm install
-      cd ..
-      pip3 install -r rag_engine/requirements.txt
+    rootDir: backend
 
-    startCommand: |
-      cd backend && node server.js
+    buildCommand: npm install && pip3 install -r ../requirements.txt
+
+    startCommand: node server.js
 
     envVars:
       - key: GROQ_API_KEY
