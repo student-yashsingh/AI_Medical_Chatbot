@@ -1,0 +1,16 @@
+services:
+  - type: web
+    name: AI-Medical-Chatbot
+    env: node
+    plan: free
+
+    buildCommand: |
+      cd backend && npm install
+      pip install -r requirements.txt
+
+    startCommand: |
+      cd backend && node server.js
+
+    envVars:
+      - key: GROQ_API_KEY
+        sync: false
