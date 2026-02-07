@@ -5,8 +5,10 @@ services:
     plan: free
 
     buildCommand: |
-      cd backend && npm install
-      pip install -r requirements.txt
+      cd backend
+      npm install
+      cd ..
+      pip3 install -r rag_engine/requirements.txt
 
     startCommand: |
       cd backend && node server.js
