@@ -1,6 +1,8 @@
-faiss-cpu==1.7.4
+faiss-cpu==1.13.2
+numpy
+pandas
 sentence-transformers
+PyMuPDF
+scikit-learn
 torch
 transformers
-numpy
-scikit-learn
