@@ -207,5 +207,10 @@ marimo/_lsp/
 __marimo__/
 
 
+# Node
 node_modules/
+backend/node_modules/
+
+# Env
+.env
 backend/.env
