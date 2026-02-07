@@ -3,4 +3,3 @@ sentence-transformers
 numpy
 torch
 transformers
-pickle5
